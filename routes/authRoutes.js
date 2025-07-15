@@ -11,10 +11,8 @@ router.post('/register', async (req, res) => {
   console.log('🔐 Register request body:', req.body);
 
   try {
-    const hash = await bcrypt.hash(password, 10);
-    console.log('Hashed password:', hash);
-
-    const user = new User({ username, email, password: hash });
+    // ❌ Remove bcrypt.hash here
+    const user = new User({ username, email, password }); // Let schema hash it
     const savedUser = await user.save();
 
     console.log('User saved:', savedUser);
