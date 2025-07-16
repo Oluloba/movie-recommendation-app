@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -12,12 +14,12 @@ function Login() {
       const res = await api.post('/api/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
       alert('Login successful!');
-      // Redirect to home or dashboard here
+      // Redirect to home or dashboard 
+       navigate('/dashboard');  // <- This triggers the redirect
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed');
+      setError(err.response?.data?.message || 'Login failed');
     }
   };
-  
 
   return (
     <form onSubmit={handleSubmit}>
